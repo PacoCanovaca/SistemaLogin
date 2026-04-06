@@ -11,6 +11,7 @@ module org.example.sistemalogin {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires static lombok;
+    requires jdk.security.jgss;
 
     exports org.example.sistemalogin;
     opens org.example.sistemalogin to javafx.fxml;

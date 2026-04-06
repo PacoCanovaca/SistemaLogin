@@ -1,4 +1,5 @@
 package org.example.sistemalogin.controller;
+import com.sun.security.jgss.GSSUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,8 +51,10 @@ public class LoginController implements Initializable {
             String pass = password.getText();
             if (checkAdmin(username, pass)) {
                 System.out.println("Eres un admin");
+            } else if (checkWorker(username, pass)) {
+                System.out.println("Eres un trabajador");
             } else {
-                System.out.println("No estás registrado");
+                System.out.println("El usuario o la contraseña no son correctos");
             }
         });
     }
@@ -66,8 +69,14 @@ public class LoginController implements Initializable {
         return false;
     }
 
-//    public boolean checkUser(String username, String pass) {
-//        // Comprobar si el usuario y la contraseña están en la lista de trabajadores
-//    }
+    public boolean checkWorker(String username, String pass) {
+        // Comprobar si el usuario y la contraseña están en la lista de trabajadores
+        for (Worker worker : workers) {
+            if (username.equalsIgnoreCase(worker.getMail()) && pass.equalsIgnoreCase(worker.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
