@@ -13,6 +13,7 @@ import org.example.sistemalogin.HelloApplication;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -50,17 +51,25 @@ public class LoginController implements Initializable {
          send.setOnAction(event -> {
             String username = user.getText();
             String pass = password.getText();
+            Alert alert;
+            Worker worker; // Para guardar el trabajador encontrado en caso de que haga login uno (para el fichaje posterior)
             if (username.isEmpty() || pass.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Error");
                 alert.setContentText("Debes introducir un usuario y una contraseña. Ambos campos deben tener un valor.");
                 alert.show();
             } else if (checkAdmin(username, pass)) {
-                generateStage("admin-view.fxml", "Administración de usuarios");
-            } else if (checkWorker(username, pass)) {
-                generateStage("worker-view.fxml", "Área de trabajador");
+                generateAdminStage();
+            } else if ((worker = checkWorker(username, pass)) != null) {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Fichaje");
+                alert.setContentText(String.format("Usuario: %s %s - %s. ¿Quieres fichar?", worker.getName(), worker.getSurname(), worker.getMail()));
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    // TODO Aquí va la realización del fichaje
+                }
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Error");
                 alert.setContentText("El usuario o la contraseña no son correctos. Vuelve a introducir los datos.");
                 alert.show();
@@ -80,22 +89,22 @@ public class LoginController implements Initializable {
         return false;
     }
 
-    public boolean checkWorker(String username, String pass) {
+    public Worker checkWorker(String username, String pass) {
         // Comprobar si el usuario y la contraseña están en la lista de trabajadores
         for (Worker worker : workers) {
             if (username.equalsIgnoreCase(worker.getMail()) && pass.equalsIgnoreCase(worker.getPassword())) {
-                return true;
+                return worker;
             }
         }
-        return false;
+        return null;
     }
 
-    public void generateStage(String resource, String title) {
+    public void generateAdminStage() {
         Stage stage = new Stage();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(resource));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            stage.setTitle(title);
+            stage.setTitle("Administración de usuarios");
             stage.setScene(scene);
             stage.show();
             ((Stage)send.getScene().getWindow()).close();
