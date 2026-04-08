@@ -66,6 +66,7 @@ public class LoginController implements Initializable {
                 alert.setContentText(String.format("Usuario: %s %s - %s. ¿Quieres fichar?", worker.getName(), worker.getSurname(), worker.getMail()));
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
+                    worker.register();
                     // TODO Aquí va la realización del fichaje
                 }
             } else {
