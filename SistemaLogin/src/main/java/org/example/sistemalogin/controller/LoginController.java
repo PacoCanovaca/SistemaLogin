@@ -67,8 +67,9 @@ public class LoginController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     worker.register();
-                    // TODO Aquí va la realización del fichaje
                 }
+                user.setText("");
+                password.setText("");
             } else {
                 alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Error");
