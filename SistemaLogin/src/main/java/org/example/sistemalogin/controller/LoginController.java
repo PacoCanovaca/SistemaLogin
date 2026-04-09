@@ -36,6 +36,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instances();
+        initGUI();
         actions();
     }
 
@@ -44,7 +45,15 @@ public class LoginController implements Initializable {
 
     public void instances() {
         admins = FXCollections.observableArrayList(new Admin("admin", "admin", "123456A", "admin@admin.com", "admin"));
-        workers = FXCollections.observableArrayList(new Worker("worker", "worker", "234566B", "worker@worker.com", "worker")); // Ambas inicializaciones temporales hasta importar usuarios de los archivos .obj
+        workers = FXCollections.observableArrayList(); // Ambas inicializaciones temporales hasta importar usuarios de los archivos .obj
+    }
+
+    public void initGUI() {
+        FileController fileController = new FileController();
+        fileController.importWorkers(workers);
+        for (Worker worker : workers) {
+            System.out.println(worker.getName() + " " + worker.getSurname());
+        }
     }
 
     public void actions() {

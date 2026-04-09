@@ -1,14 +1,12 @@
 package org.example.sistemalogin.model;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Worker extends User {
+public class Worker extends User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     public Worker(String name, String surname, String dni, String mail, String password) {
         super(name, surname, dni, mail, password);

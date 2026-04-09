@@ -12,6 +12,7 @@ module org.example.sistemalogin {
     requires com.almasb.fxgl.all;
     requires static lombok;
     requires jdk.security.jgss;
+    requires jdk.unsupported.desktop;
 
     exports org.example.sistemalogin;
     opens org.example.sistemalogin to javafx.fxml;

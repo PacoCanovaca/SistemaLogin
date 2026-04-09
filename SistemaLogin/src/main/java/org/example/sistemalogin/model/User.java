@@ -3,9 +3,13 @@ package org.example.sistemalogin.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public abstract class User {
+public abstract class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String name, surname, dni, mail, password;
 
