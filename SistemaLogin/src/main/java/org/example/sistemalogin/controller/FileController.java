@@ -27,7 +27,6 @@ public class FileController {
             System.out.println("Error: no se ha podido encontrar el archivo.");
         } catch (IOException e) {
             System.out.println("Error: no hay permiso de lectura en el archivo.");
-            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
             System.out.println("Error: la clase indicada no se ha encontrado.");
         } finally {
@@ -56,6 +55,28 @@ public class FileController {
                 objectOutputStream.close();
             } catch (IOException e) {
                 System.out.println("Error: no se ha podido cerrar el flujo de salida.");
+            }
+        }
+    }
+
+    public void importRegisters(ObservableList<String> registers) {
+        File file = new File("src/main/java/org/example/sistemalogin/ressources/horas.txt");
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                registers.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: no se ha podido encontrar el archivo.");
+        } catch (IOException e) {
+            System.out.println("Error genérico: no se ha podido leer el archivo.");
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+                System.out.println("Error: no se ha podido cerrar el flujo de entrada");
             }
         }
     }

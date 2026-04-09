@@ -33,15 +33,15 @@ public class LoginController implements Initializable {
     @FXML
     private TextField user;
 
+    private ObservableList<Admin> admins;
+    private ObservableList<Worker> workers;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instances();
         initGUI();
         actions();
     }
-
-    private ObservableList<Admin> admins;
-    private ObservableList<Worker> workers;
 
     public void instances() {
         admins = FXCollections.observableArrayList(new Admin("admin", "admin", "123456A", "admin@admin.com", "admin"));
@@ -51,9 +51,6 @@ public class LoginController implements Initializable {
     public void initGUI() {
         FileController fileController = new FileController();
         fileController.importWorkers(workers);
-        for (Worker worker : workers) {
-            System.out.println(worker.getName() + " " + worker.getSurname());
-        }
     }
 
     public void actions() {

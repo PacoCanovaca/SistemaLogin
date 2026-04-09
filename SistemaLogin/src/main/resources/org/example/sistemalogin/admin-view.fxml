@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.sistemalogin.controller.AdminController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sistemalogin.controller.AdminController">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Menú de Administrador" BorderPane.alignment="CENTER">
          <font>
@@ -30,7 +30,8 @@
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="427.0" minWidth="10.0" prefWidth="362.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="493.0" minWidth="10.0" prefWidth="438.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="493.0" minWidth="10.0" prefWidth="420.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="493.0" minWidth="10.0" prefWidth="366.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -285,6 +286,16 @@
                   <Font name="Cambria" size="20.0" />
                </font>
             </Text>
+            <ListView fx:id="registers" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
+               </GridPane.margin>
+            </ListView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Registros de trabajadores" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font name="Cambria" size="20.0" />
+               </font>
+            </Text>
          </children>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -297,12 +308,12 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="150.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="back" mnemonicParsing="false" text="Volver al inicio de sesión">
+            <Button fx:id="backButton" mnemonicParsing="false" text="Volver al inicio de sesión">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button fx:id="seeRegisters" alignment="CENTER" mnemonicParsing="false" text="Ver registros de la jornada" />
+            <Button fx:id="saveUsersButton" mnemonicParsing="false" text="Guardar trabajadores" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" />

@@ -32,4 +32,8 @@ public class Worker extends User implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s %s - DNI: %s", super.getName(), super.getSurname(), super.getDni());
+    }
 }
