@@ -103,8 +103,65 @@ public class AdminController implements Initializable {
                 generateLoginStage();
             }
         });
+
         saveUsersButton.setOnAction(event -> {
             fileController.exportWorkers(workers);
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Usuarios guardados");
+            alert.setContentText("Se ha exportado correctamente la lista de usuarios.");
+            alert.show();
+        });
+
+        addWorkerButton.setOnAction(event -> {
+            Alert alert;
+            String name = addWorkerName.getText();
+            String surname = addWorkerSurname.getText();
+            String mail = addWorkerMail.getText();
+            String dni = addWorkerID.getText();
+            String password = addWorkerPass.getText();
+            if (name.isEmpty() || surname.isEmpty() || mail.isEmpty() || dni.isEmpty() || password.isEmpty()) {
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Campos incompletos");
+                alert.setContentText("Debes rellenar todos los campos para crear un nuevo usuario.");
+                alert.show();
+            } else if (checkMail(mail)) {
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Correo existente");
+                alert.setContentText("El correo que has introducido ya está registrado. Prueba con otro.");
+                alert.show();
+            } else if (checkId(dni)) {
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("DNI ya registrado");
+                alert.setContentText("Ya existe un usuario registrado con ese DNI.");
+                alert.show();
+            } else {
+                workers.add(new Worker(name, surname, dni, mail, password));
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Usuario añadido");
+                alert.setContentText("Se ha dado de alta al usuario correctamente.");
+                alert.show();
+                addWorkerName.setText("");
+                addWorkerSurname.setText("");
+                addWorkerMail.setText("");
+                addWorkerID.setText("");
+                addWorkerPass.setText("");
+            }
+        });
+
+        deleteWorkerButton.setOnAction(event -> {
+            for (Worker worker : workers) {
+                if (deleteWorker.getText().equalsIgnoreCase(worker.getDni())) {
+                    workers.remove(worker);
+                    deleteWorker.setText("");
+                    return;
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Usuario no encontrado");
+            alert.setContentText("No se ha encontrado ningún usuario con este DNI");
+            alert.show();
+            deleteWorker.setText("");
         });
     }
 
@@ -123,5 +180,23 @@ public class AdminController implements Initializable {
             alert.setContentText("No se ha encontrado la pantalla que intenta cargar.");
             alert.show();
         }
+    }
+
+    public boolean checkId(String dni) {
+        for (Worker worker : workers) {
+            if (worker.getDni().equalsIgnoreCase(dni)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkMail(String mail) {
+        for (Worker worker : workers) {
+            if (worker.getMail().equalsIgnoreCase(mail)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
