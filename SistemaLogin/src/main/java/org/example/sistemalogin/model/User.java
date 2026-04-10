@@ -20,4 +20,8 @@ public abstract class User implements Serializable {
         this.mail = mail;
         this.password = password;
     }
+
+    public String getData() {
+        return String.format("Nombre: %s%nApellido: %s%nDNI: %s%nCorreo: %s%nContraseña: %s", name, surname, dni, mail, password);
+    }
 }

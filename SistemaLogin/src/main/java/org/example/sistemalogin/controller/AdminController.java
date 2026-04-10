@@ -97,7 +97,7 @@ public class AdminController implements Initializable {
         backButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Volver a inicio de sesión");
-            alert.setContentText("¿Estás seguro de que quieres cerrar sesión y volver al inicio de sesión? ¡Recuerda que debes guardar los cambios realizados antes de salir del programa!");
+            alert.setContentText("¿Quieres cerrar sesión? ¡Recuerda guardar los cambios antes!");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 generateLoginStage();
@@ -150,10 +150,29 @@ public class AdminController implements Initializable {
         });
 
         deleteWorkerButton.setOnAction(event -> {
+            Alert alert;
             for (Worker worker : workers) {
                 if (deleteWorker.getText().equalsIgnoreCase(worker.getDni())) {
                     workers.remove(worker);
                     deleteWorker.setText("");
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Usuario eliminado");
+                    alert.setContentText("Se ha dado de baja al usuario correctamente.");
+                    alert.show();
+                    return;
+                }
+            }
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Usuario no encontrado");
+            alert.setContentText("No se ha encontrado ningún usuario con este DNI");
+            alert.show();
+            deleteWorker.setText("");
+        });
+
+        seeWorkerButton.setOnAction(event -> {
+            for (Worker worker : workers) {
+                if (seeWorker.getText().equalsIgnoreCase(worker.getDni())) {
+                    // todo Generar ventana externa para la información y los registros del usuario. Mantener esta abierta para seguir trabajando con ella
                     return;
                 }
             }
@@ -161,7 +180,27 @@ public class AdminController implements Initializable {
             alert.setTitle("Usuario no encontrado");
             alert.setContentText("No se ha encontrado ningún usuario con este DNI");
             alert.show();
-            deleteWorker.setText("");
+            seeWorker.setText("");
+        });
+
+        changePassButton.setOnAction(event -> {
+            Alert alert;
+            for (Worker worker : workers) {
+                if (changePassID.getText().equalsIgnoreCase(worker.getDni())) {
+                    worker.setPassword(changePassNewPassword.getText());
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Contraseña modificada");
+                    alert.setContentText("Se ha modificado la contraseña del usuario indicado.");
+                    alert.show();
+                    return;
+                }
+            }
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Usuario no encontrado");
+            alert.setContentText("No se ha encontrado ningún usuario con este DNI");
+            alert.show();
+            changePassID.setText("");
+            changePassNewPassword.setText("");
         });
     }
 
