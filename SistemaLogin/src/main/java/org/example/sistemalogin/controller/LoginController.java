@@ -18,12 +18,6 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    // Esta clase sirve para controlar el Login inicial, es decir, comparar el usuario y contraseña con los introducidos en los distintos tipos de trabajadores.
-
-    // En definitiva, recibe las listas de usuarios (administradores y trabajadores) y valida el login
-
-    // Seguramente tenga que hacer polimorfismo y así tener una sola lista de objetos User en lugar de dos listas (Una para objetos Admin y otra para objetos Worker)
-
     @FXML
     private TextField password;
 
@@ -43,17 +37,17 @@ public class LoginController implements Initializable {
         actions();
     }
 
-    public void instances() {
+    private void instances() {
         admins = FXCollections.observableArrayList(new Admin("admin", "admin", "123456A", "admin@admin.com", "admin"));
         workers = FXCollections.observableArrayList(); // Ambas inicializaciones temporales hasta importar usuarios de los archivos .obj
     }
 
-    public void initGUI() {
+    private void initGUI() {
         FileController fileController = new FileController();
         fileController.importWorkers(workers);
     }
 
-    public void actions() {
+    private void actions() {
          send.setOnAction(event -> {
             String username = user.getText();
             String pass = password.getText();
@@ -90,7 +84,7 @@ public class LoginController implements Initializable {
         });
     }
 
-    public boolean checkAdmin(String username, String pass) {
+    private boolean checkAdmin(String username, String pass) {
         // Comprobar si el usuario y la contraseña están en la lista de admins
         for (Admin admin : admins) {
             if (username.equalsIgnoreCase(admin.getMail()) && pass.equalsIgnoreCase(admin.getPassword())) {
@@ -100,7 +94,7 @@ public class LoginController implements Initializable {
         return false;
     }
 
-    public Worker checkWorker(String username, String pass) {
+    private Worker checkWorker(String username, String pass) {
         // Comprobar si el usuario y la contraseña están en la lista de trabajadores
         for (Worker worker : workers) {
             if (username.equalsIgnoreCase(worker.getMail()) && pass.equalsIgnoreCase(worker.getPassword())) {
@@ -110,7 +104,7 @@ public class LoginController implements Initializable {
         return null;
     }
 
-    public void generateAdminStage() {
+    private void generateAdminStage() {
         Stage stage = new Stage();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));

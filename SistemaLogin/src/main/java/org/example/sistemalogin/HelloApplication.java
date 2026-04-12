@@ -1,16 +1,11 @@
 package org.example.sistemalogin;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.sistemalogin.controller.FileController;
-import org.example.sistemalogin.model.Worker;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override

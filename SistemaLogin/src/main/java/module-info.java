@@ -13,6 +13,7 @@ module org.example.sistemalogin {
     requires static lombok;
     requires jdk.security.jgss;
     requires jdk.unsupported.desktop;
+    requires javafx.graphics;
 
     exports org.example.sistemalogin;
     opens org.example.sistemalogin to javafx.fxml;

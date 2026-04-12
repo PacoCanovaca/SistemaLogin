@@ -7,9 +7,7 @@ import java.io.*;
 
 public class FileController {
 
-    // Esta clase controla la importación y exportación de listas de usuarios (admins por un lado y trabajadores por otro) a los archivos .obj correspondientes
-
-    public void importWorkers(ObservableList<Worker> workers) {
+    protected void importWorkers(ObservableList<Worker> workers) {
         File file = new File("src/main/java/org/example/sistemalogin/ressources/workers.obj");
         ObjectInputStream objectInputStream = null;
 
@@ -38,7 +36,7 @@ public class FileController {
         }
     }
 
-    public void exportWorkers(ObservableList<Worker> workers) {
+    protected void exportWorkers(ObservableList<Worker> workers) {
         File file = new File("src/main/java/org/example/sistemalogin/ressources/workers.obj");
         ObjectOutputStream objectOutputStream = null;
         try {
@@ -59,7 +57,7 @@ public class FileController {
         }
     }
 
-    public void importRegisters(ObservableList<String> registers) {
+    protected void importRegisters(ObservableList<String> registers) {
         File file = new File("src/main/java/org/example/sistemalogin/ressources/horas.txt");
         BufferedReader bufferedReader = null;
         try {

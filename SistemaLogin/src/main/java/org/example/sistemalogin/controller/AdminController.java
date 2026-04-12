@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.sistemalogin.HelloApplication;
+import org.example.sistemalogin.model.Admin;
 import org.example.sistemalogin.model.Worker;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,19 +81,19 @@ public class AdminController implements Initializable {
         actions();
     }
 
-    public void instances() {
+    private void instances() {
         workers = FXCollections.observableArrayList();
         registersList = FXCollections.observableArrayList();
         fileController.importWorkers(workers);
         fileController.importRegisters(registersList);
     }
 
-    public void initGUI() {
+    private void initGUI() {
         workersList.setItems(workers);
         registers.setItems(registersList);
     }
 
-    public void actions() {
+    private void actions() {
         backButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Volver a inicio de sesión");
@@ -114,7 +114,7 @@ public class AdminController implements Initializable {
         });
 
         addWorkerButton.setOnAction(event -> {
-            Alert alert;
+            Alert alert = null;
             String name = addWorkerName.getText();
             String surname = addWorkerSurname.getText();
             String mail = addWorkerMail.getText();
@@ -136,11 +136,7 @@ public class AdminController implements Initializable {
                 alert.setContentText("Ya existe un usuario registrado con ese DNI.");
                 alert.show();
             } else {
-                workers.add(new Worker(name, surname, dni, mail, password));
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Usuario añadido");
-                alert.setContentText("Se ha dado de alta al usuario correctamente.");
-                alert.show();
+                Admin.addWorker(workers, name, surname, dni, mail, password, alert);
                 addWorkerName.setText("");
                 addWorkerSurname.setText("");
                 addWorkerMail.setText("");
@@ -150,15 +146,11 @@ public class AdminController implements Initializable {
         });
 
         deleteWorkerButton.setOnAction(event -> {
-            Alert alert;
+            Alert alert = null;
             for (Worker worker : workers) {
                 if (deleteWorker.getText().equalsIgnoreCase(worker.getDni())) {
-                    workers.remove(worker);
+                    Admin.deleteWorker(workers, worker, alert);
                     deleteWorker.setText("");
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Usuario eliminado");
-                    alert.setContentText("Se ha dado de baja al usuario correctamente.");
-                    alert.show();
                     return;
                 }
             }
@@ -172,7 +164,9 @@ public class AdminController implements Initializable {
         seeWorkerButton.setOnAction(event -> {
             for (Worker worker : workers) {
                 if (seeWorker.getText().equalsIgnoreCase(worker.getDni())) {
-                    // todo Generar ventana externa para la información y los registros del usuario. Mantener esta abierta para seguir trabajando con ella
+                    Stage stage = new Stage();
+                    Admin.seeWorker(stage, worker);
+                    seeWorker.setText("");
                     return;
                 }
             }
@@ -184,14 +178,13 @@ public class AdminController implements Initializable {
         });
 
         changePassButton.setOnAction(event -> {
-            Alert alert;
+            Alert alert = null;
             for (Worker worker : workers) {
                 if (changePassID.getText().equalsIgnoreCase(worker.getDni())) {
                     worker.setPassword(changePassNewPassword.getText());
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Contraseña modificada");
-                    alert.setContentText("Se ha modificado la contraseña del usuario indicado.");
-                    alert.show();
+                    Admin.changePass(worker, changePassNewPassword.getText(), alert);
+                    changePassID.setText("");
+                    changePassNewPassword.setText("");
                     return;
                 }
             }
@@ -204,7 +197,7 @@ public class AdminController implements Initializable {
         });
     }
 
-    public void generateLoginStage() {
+    private void generateLoginStage() {
         Stage stage = new Stage();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
@@ -221,7 +214,7 @@ public class AdminController implements Initializable {
         }
     }
 
-    public boolean checkId(String dni) {
+    private boolean checkId(String dni) {
         for (Worker worker : workers) {
             if (worker.getDni().equalsIgnoreCase(dni)) {
                 return true;
@@ -230,7 +223,7 @@ public class AdminController implements Initializable {
         return false;
     }
 
-    public boolean checkMail(String mail) {
+    private boolean checkMail(String mail) {
         for (Worker worker : workers) {
             if (worker.getMail().equalsIgnoreCase(mail)) {
                 return true;
